@@ -4,7 +4,6 @@ export const FormContainer = styled.form`
   width: 300px;
   border: 2px solid #000;
   padding: 10px;
-  max-width: 400px;
   font-family: 'Courier New', monospace;
   display: flex;
   flex-direction: column;
@@ -29,6 +28,13 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
+  padding: 0.5rem;
+  border: 2px solid #000;
+  background: #fff;
+  font-family: inherit;
+`;
+
+export const Select = styled.select`
   padding: 0.5rem;
   border: 2px solid #000;
   background: #fff;
@@ -77,4 +83,8 @@ export const Button = styled.button`
     background: #000;
     color: #fff;
   }
+`;
+
+export const Spacer = styled.div`
+  flex: 1;
 `;

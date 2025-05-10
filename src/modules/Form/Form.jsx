@@ -9,7 +9,9 @@ import {
   ToggleButton,
   ButtonGroup,
   Button,
-  Control
+  Control,
+  Spacer,
+  Select
 } from './Form.styles';
 
 export const Form = () => {
@@ -29,33 +31,41 @@ export const Form = () => {
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
-      <Title>Configurações</Title>
+      <Title>Simulation Setup</Title>
       <Control>
-        <Label>Quant. Veículos</Label>
+        <Label>Model</Label>
+        <Select>
+          <option>Modelo 1</option>
+          <option>Modelo 2</option>
+        </Select>
+        {errors.interval && <Error>Obrigatório</Error>}
+      </Control>
+      <Control>
+        <Label>Number of vehicles</Label>
         <Input
           type="number"
           {...register('quantity', { required: true })}
-          placeholder="Informe a quantidade"
+          placeholder="Type number of vehicles"
         />
         {errors.quantity && <Error>Obrigatório</Error>}
       </Control>
       <Control>
-        <Label>Intervalo de Inserção (MS)</Label>
+        <Label>Insertion time interval (MS)</Label>
         <Input
           type="number"
           {...register('interval', { required: true })}
-          placeholder="Informe o intervalo"
+          placeholder="Type interval (MS)"
         />
         {errors.interval && <Error>Obrigatório</Error>}
       </Control>
       <Control>
-        <Label>Mecanismo de exclusão mútua</Label>
+        <Label>Mutual exclusion mechanism</Label>
         <ToggleContainer>
           <ToggleButton
             type="button"
             isActive={selectedMechanism === 'semaphore'}
             onClick={() => setValue('exclusionMechanism', 'semaphore')}>
-            Semáforo
+            Semaphore
           </ToggleButton>
           <ToggleButton
             type="button"
@@ -65,6 +75,7 @@ export const Form = () => {
           </ToggleButton>
         </ToggleContainer>
       </Control>
+      <Spacer />
       <ButtonGroup>
         <Button type="submit">Iniciar simulação</Button>
         <Button type="button">Encerrar inserção</Button>
