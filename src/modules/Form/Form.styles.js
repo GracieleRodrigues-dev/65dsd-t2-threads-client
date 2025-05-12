@@ -43,7 +43,7 @@ export const Select = styled.select`
 
 export const Error = styled.span`
   color: red;
-  font-size: 0.8rem;
+  font-size: 11px;
 `;
 
 export const ToggleContainer = styled.div`
