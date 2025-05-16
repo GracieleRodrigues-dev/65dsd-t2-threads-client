@@ -67,3 +67,18 @@ export const TableCell = styled.td`
 
   color: ${({ type }) => (type === 0 ? '#000' : '#111')};
 `;
+
+export const NoData = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border: 2px solid black;
+  border-bottom: 6px solid black;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const NoDataDescription = styled.span`
+  font-size: 22px;
+  color: black;
+`;

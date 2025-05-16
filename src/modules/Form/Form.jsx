@@ -15,8 +15,11 @@ import {
   ToggleButton,
   ToggleContainer
 } from './Form.styles';
+import useStore from '../../store';
 
 export const Form = () => {
+  const setSimulation = useStore(state => state.setSimulation);
+
   const [maps, setMaps] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,27 +28,39 @@ export const Form = () => {
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors }
   } = useForm();
 
   const selectedMechanism = watch('exclusionMechanism');
 
   const onSubmit = data => {
-    const { exclusionMechanism, insertionTimeInterval, map, numberOfVehicles } =
-      data;
+    const {
+      exclusionMechanism,
+      insertionTimeInterval,
+      roadMapIndex,
+      numberOfVehicles
+    } = data;
 
     const payload = {
       exclusionMechanism,
-      map: Number(map),
+      roadMapIndex: Number(roadMapIndex),
       numberOfVehicles: Number(numberOfVehicles),
       insertionTimeInterval: Number(insertionTimeInterval)
     };
 
-    api.startSimulation(payload).then(() => alert('Started Simulation!'));
+    api.startSimulation(payload).then(() => {
+      setSimulation({ ...payload, roadMap: maps[Number(roadMapIndex)] });
+      alert('Started Simulation!');
+    });
   };
 
   const onStop = () => {
-    api.stopSimulation().then(() => alert('Stoped Simulation!'));
+    api.stopSimulation().then(() => {
+      reset();
+      setSimulation({});
+      alert('Stoped Simulation!');
+    });
   };
 
   const onStopVehicleInsertion = () => {
@@ -82,7 +97,8 @@ export const Form = () => {
         <>
           <Control>
             <Label>Model</Label>
-            <Select {...register('map', { required: 'Campo obrigatório' })}>
+            <Select
+              {...register('roadMapIndex', { required: 'Campo obrigatório' })}>
               <option value="">Selecione um mapa</option>
               {maps.map((_, i) => (
                 <option key={i} value={i}>
