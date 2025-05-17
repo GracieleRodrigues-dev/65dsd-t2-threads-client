@@ -18,6 +18,7 @@ import {
 import useStore from '../../store';
 
 export const Form = () => {
+  const simulation = useStore(state => state.simulation);
   const setSimulation = useStore(state => state.setSimulation);
 
   const [maps, setMaps] = useState([]);
@@ -58,7 +59,7 @@ export const Form = () => {
   const onStop = () => {
     api.stopSimulation().then(() => {
       reset();
-      setSimulation({});
+      setSimulation(null);
       alert('Stoped Simulation!');
     });
   };
@@ -175,10 +176,13 @@ export const Form = () => {
           <Spacer />
           <ButtonGroup>
             <Button type="submit">Iniciar simulação</Button>
-            <Button type="button" onClick={onStop}>
+            <Button type="button" onClick={onStop} disabled={!simulation}>
               Encerrar inserção
             </Button>
-            <Button type="button" onClick={onStopVehicleInsertion}>
+            <Button
+              type="button"
+              onClick={onStopVehicleInsertion}
+              disabled={!simulation}>
               Encerrar simulação
             </Button>
           </ButtonGroup>

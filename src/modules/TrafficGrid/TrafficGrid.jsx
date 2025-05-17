@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import useStore from '../../store';
+import React, { useEffect, useState } from 'react';
 import {
   NoData,
   NoDataDescription,
@@ -6,7 +7,6 @@ import {
   TableCell,
   TableRow
 } from './TrafficGrid.styles';
-import useStore from '../../store';
 
 const defaultVehicles = [
   { id: 1, x: 8, y: 24 },
@@ -18,32 +18,48 @@ const TrafficGrid = () => {
 
   const [vehicles, setVehicles] = useState([...defaultVehicles]);
 
-  // useEffect(() => {
-  //   const eventSource = new EventSource('http://localhost:8080/traffic/stream');
+  useEffect(() => {
+    const eventSource = new EventSource('http://localhost:8080/traffic/stream');
 
-  //   eventSource.addEventListener('vehicle-update', event => {
-  //     try {
-  //       const data = JSON.parse(event.data);
-  //       setVehicles(prev => {
-  //         return [...prev, data];
-  //       });
-  //     } catch (err) {
-  //       console.error('Erro ao processar evento', err);
-  //     }
-  //   });
+    eventSource.addEventListener('vehicle-update', event => {
+      try {
+        const data = JSON.parse(event.data);
+        console.log('Evento recebido', data);
 
-  //   eventSource.onerror = err => {
-  //     console.error('Erro na conexão SSE', err);
-  //     eventSource.close();
-  //   };
+        setVehicles(prev => {
+          const isExists = prev.find(vehicle => vehicle.id === data.id);
 
-  //   return () => {
-  //     eventSource.close();
-  //   };
-  // }, []);
+          if (isExists) {
+            return prev.map(vehicle => {
+              if (vehicle.id === data.id) {
+                return { ...vehicle, currentPosition: data.currentPosition };
+              }
+              return vehicle;
+            });
+          }
+
+          return [...prev, data];
+        });
+      } catch (err) {
+        console.error('Erro ao processar evento', err);
+      }
+    });
+
+    eventSource.onerror = err => {
+      console.error('Erro na conexão SSE', err);
+      eventSource.close();
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
 
   const hasVehicle = (x, y) =>
-    vehicles.find(vehicle => vehicle.x === x && vehicle.y === y);
+    vehicles.find(
+      vehicle =>
+        vehicle?.currentPosition?.x === x && vehicle?.currentPosition?.y === y
+    );
 
   if (!simulation) {
     return (

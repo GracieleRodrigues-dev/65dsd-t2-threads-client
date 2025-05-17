@@ -83,6 +83,10 @@ export const Button = styled.button`
     background: #000;
     color: #fff;
   }
+
+  &:disabled {
+    pointer-events: none;
+  }
 `;
 
 export const Spacer = styled.div`
