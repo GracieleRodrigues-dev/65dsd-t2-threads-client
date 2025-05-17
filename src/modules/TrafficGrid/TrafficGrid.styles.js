@@ -2,64 +2,47 @@ import styled from 'styled-components';
 
 export const Table = styled.table`
   flex: 1;
-  border-collapse: collapse;
+  border-collapse: separate;
   background-color: black;
   border: 2px solid black;
 `;
 
 export const TableRow = styled.tr``;
 
-const getColor = options => {
-  const index = Math.floor(Math.random() * options.length);
-  return options[index];
-};
-
-const grassColors = [
-  '#4ad66d',
-  '#2dc653',
-  '#25a244',
-  '#208b3a',
-  '#155d27',
-  '#10451d'
-];
-
-const roadColors = ['#495057', '#343a40'];
-
 export const TableCell = styled.td`
   width: 24px;
   height: 24px;
   text-align: center;
   font-size: 20px;
-  border: 2px solid black !important;
 
   background-color: ${({ type }) => {
     switch (type) {
       case 0:
-        return getColor(grassColors); // Grama
+        return '#25a244'; // Grama
       case 1:
-        return getColor(roadColors); // Estrada Cima
+        return '#495057'; // Estrada Cima
       case 2:
-        return getColor(roadColors); // Estrada Direita
+        return '#495057'; // Estrada Direita
       case 3:
-        return getColor(roadColors); // Estrada Baixo
+        return '#495057'; // Estrada Baixo
       case 4:
-        return getColor(roadColors); // Estrada Esquerda
+        return '#495057'; // Estrada Esquerda
       case 5:
-        return getColor(roadColors); // Cruzamento Cima
+        return '#495057'; // Cruzamento Cima
       case 6:
-        return getColor(roadColors); // Cruzamento Direita
+        return '#495057'; // Cruzamento Direita
       case 7:
-        return getColor(roadColors); // Cruzamento Baixo
+        return '#495057'; // Cruzamento Baixo
       case 8:
-        return getColor(roadColors); // Cruzamento Esquerda
+        return '#495057'; // Cruzamento Esquerda
       case 9:
-        return getColor(roadColors); // Cruzamento Cima e Direita
+        return '#495057'; // Cruzamento Cima e Direita
       case 10:
-        return getColor(roadColors); // Cruzamento Cima e Esquerda
+        return '#495057'; // Cruzamento Cima e Esquerda
       case 11:
-        return getColor(roadColors); // Cruzamento Direita e Baixo
+        return '#495057'; // Cruzamento Direita e Baixo
       case 12:
-        return getColor(roadColors); // Cruzamento Baixo e Esquerda
+        return '#495057'; // Cruzamento Baixo e Esquerda
       default:
         return '#000';
     }
