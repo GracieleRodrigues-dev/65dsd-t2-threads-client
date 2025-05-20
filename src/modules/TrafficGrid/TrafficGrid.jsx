@@ -76,7 +76,7 @@ const TrafficGrid = () => {
           <TableRow key={rowIndex}>
             {row.map((cell, colIndex) => (
               <TableCell key={colIndex} type={cell}>
-                {hasVehicle(colIndex, rowIndex) ? '🚘' : ' '}
+                {hasVehicle(rowIndex, colIndex) ? '🚘' : ' '}
               </TableCell>
             ))}
           </TableRow>
