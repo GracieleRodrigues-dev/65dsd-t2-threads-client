@@ -176,12 +176,12 @@ export const Form = () => {
           <Spacer />
           <ButtonGroup>
             <Button type="submit">Iniciar simulação</Button>
-            <Button type="button" onClick={onStop} disabled={!simulation}>
+            <Button type="button" onClick={onStopVehicleInsertion} disabled={!simulation}>
               Encerrar inserção
             </Button>
             <Button
               type="button"
-              onClick={onStopVehicleInsertion}
+              onClick={onStop}
               disabled={!simulation}>
               Encerrar simulação
             </Button>
