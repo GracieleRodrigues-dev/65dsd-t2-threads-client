@@ -8,18 +8,14 @@ import {
   TableRow
 } from './TrafficGrid.styles';
 
-const defaultVehicles = [
-  { id: 1, x: 8, y: 24 },
-  { id: 2, x: 8, y: 23 }
-];
-
 const TrafficGrid = () => {
   const simulation = useStore(state => state.simulation);
 
-  const [vehicles, setVehicles] = useState([...defaultVehicles]);
+  const [vehicles, setVehicles] = useState([]);
 
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:8080/traffic/stream');
+    const URL = 'http://localhost:8080/traffic/stream';
+    const eventSource = new EventSource(URL);
 
     eventSource.addEventListener('vehicle-update', event => {
       try {
@@ -32,7 +28,11 @@ const TrafficGrid = () => {
           if (isExists) {
             return prev.map(vehicle => {
               if (vehicle.id === data.id) {
-                return { ...vehicle, currentPosition: data.currentPosition };
+                return {
+                  ...vehicle,
+                  active: data.active,
+                  currentPosition: data.currentPosition
+                };
               }
               return vehicle;
             });
@@ -56,10 +56,17 @@ const TrafficGrid = () => {
   }, []);
 
   const hasVehicle = (x, y) =>
-    vehicles.find(
+    vehicles?.find(
       vehicle =>
         vehicle?.currentPosition?.x === x && vehicle?.currentPosition?.y === y
     );
+
+  useEffect(() => {
+    const inactive = vehicles?.find(vehicle => !vehicle.active);
+    if (inactive) {
+      setVehicles(prev => prev.filter(vehicle => vehicle.id !== inactive.id));
+    }
+  }, [vehicles]);
 
   if (!simulation) {
     return (

@@ -16,6 +16,7 @@ import {
   ToggleContainer
 } from './Form.styles';
 import useStore from '../../store';
+import { uniqueId } from 'lodash';
 
 export const Form = () => {
   const simulation = useStore(state => state.simulation);
@@ -51,8 +52,11 @@ export const Form = () => {
     };
 
     api.startSimulation(payload).then(() => {
-      setSimulation({ ...payload, roadMap: maps[Number(roadMapIndex)] });
-      alert('Started Simulation!');
+      setSimulation({
+        ...payload,
+        id: uniqueId(),
+        roadMap: maps[Number(roadMapIndex)]
+      });
     });
   };
 
@@ -60,12 +64,11 @@ export const Form = () => {
     api.stopSimulation().then(() => {
       reset();
       setSimulation(null);
-      alert('Stoped Simulation!');
     });
   };
 
   const onStopVehicleInsertion = () => {
-    api.stopVehicleInsertion().then(() => alert('Stoped Vehicle Insertion!'));
+    api.stopVehicleInsertion().then(() => null);
   };
 
   useEffect(() => {
@@ -176,13 +179,13 @@ export const Form = () => {
           <Spacer />
           <ButtonGroup>
             <Button type="submit">Iniciar simulação</Button>
-            <Button type="button" onClick={onStopVehicleInsertion} disabled={!simulation}>
-              Encerrar inserção
-            </Button>
             <Button
               type="button"
-              onClick={onStop}
+              onClick={onStopVehicleInsertion}
               disabled={!simulation}>
+              Encerrar inserção
+            </Button>
+            <Button type="button" onClick={onStop} disabled={!simulation}>
               Encerrar simulação
             </Button>
           </ButtonGroup>
