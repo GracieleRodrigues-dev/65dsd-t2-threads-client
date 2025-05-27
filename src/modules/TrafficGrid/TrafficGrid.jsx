@@ -68,7 +68,7 @@ const TrafficGrid = () => {
           setVehicles(prev =>
             prev.filter(vehicle => vehicle.id !== inactive.id)
           ),
-        300
+        200
       );
     }
   }, [vehicles]);
