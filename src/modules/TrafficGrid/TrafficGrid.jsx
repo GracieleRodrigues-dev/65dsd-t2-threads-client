@@ -1,17 +1,24 @@
 import useStore from '../../store';
-import React, { useEffect, useState } from 'react';
+import { createVehicle } from '../../utils';
+import { useEffect, useState } from 'react';
 import {
+  Container,
   NoData,
   NoDataDescription,
   Table,
   TableCell,
   TableRow
 } from './TrafficGrid.styles';
+import TrafficGridVehicle from './TrafficGridVehicle';
+import { useMeasure } from '@uidotdev/usehooks';
+import TrafficGridCell from './TrafficGridCell';
+import { isEmpty } from 'lodash';
 
 const TrafficGrid = () => {
-  const simulation = useStore(state => state.simulation);
-
+  const roadMap = useStore(state => state.simulation?.roadMap);
   const [vehicles, setVehicles] = useState([]);
+
+  const [ref, { width, height }] = useMeasure();
 
   useEffect(() => {
     const URL = 'http://localhost:8080/traffic/stream';
@@ -20,25 +27,23 @@ const TrafficGrid = () => {
     eventSource.addEventListener('vehicle-update', event => {
       try {
         const data = JSON.parse(event.data);
-        console.log('Evento recebido', data);
 
         setVehicles(prev => {
           const isExists = prev.find(vehicle => vehicle.id === data.id);
-
           if (isExists) {
-            return prev.map(vehicle => {
-              if (vehicle.id === data.id) {
-                return {
-                  ...vehicle,
-                  active: data.active,
-                  currentPosition: data.currentPosition
-                };
-              }
-              return vehicle;
-            });
+            return prev.map(vehicle =>
+              vehicle.id === data.id
+                ? {
+                    ...vehicle,
+                    active: data.active,
+                    currentPosition: data.currentPosition
+                  }
+                : vehicle
+            );
           }
 
-          return [...prev, data];
+          const newVehicle = createVehicle(data);
+          return [...prev, newVehicle];
         });
       } catch (err) {
         console.error('Erro ao processar evento', err);
@@ -55,12 +60,6 @@ const TrafficGrid = () => {
     };
   }, []);
 
-  const hasVehicle = (x, y) =>
-    vehicles?.find(
-      vehicle =>
-        vehicle?.currentPosition?.x === x && vehicle?.currentPosition?.y === y
-    );
-
   useEffect(() => {
     const inactive = vehicles?.find(vehicle => !vehicle.active);
     if (inactive) {
@@ -68,7 +67,7 @@ const TrafficGrid = () => {
     }
   }, [vehicles]);
 
-  if (!simulation) {
+  if (isEmpty(roadMap)) {
     return (
       <NoData>
         <NoDataDescription>Configure a simulação</NoDataDescription>
@@ -77,19 +76,31 @@ const TrafficGrid = () => {
   }
 
   return (
-    <Table>
-      <tbody>
-        {simulation.roadMap.map((row, rowIndex) => (
-          <TableRow key={rowIndex}>
-            {row.map((cell, colIndex) => (
-              <TableCell key={colIndex} type={cell}>
-                {hasVehicle(rowIndex, colIndex) ? '🚘' : ' '}
-              </TableCell>
-            ))}
-          </TableRow>
-        ))}
-      </tbody>
-    </Table>
+    <Container>
+      <Table>
+        <tbody>
+          {roadMap.map((row, rowIndex) => (
+            <TableRow key={rowIndex}>
+              {row.map((cell, colIndex) => (
+                <TrafficGridCell
+                  cell={cell}
+                  rowIndex={rowIndex}
+                  colIndex={colIndex}
+                  ref={rowIndex === 0 && colIndex === 0 ? ref : null}
+                />
+              ))}
+            </TableRow>
+          ))}
+        </tbody>
+      </Table>
+      {vehicles.map(vehicle => (
+        <TrafficGridVehicle
+          key={vehicle.id}
+          vehicle={vehicle}
+          cellSize={{ width, height }}
+        />
+      ))}
+    </Container>
   );
 };
 

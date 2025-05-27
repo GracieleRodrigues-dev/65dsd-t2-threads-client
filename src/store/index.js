@@ -6,7 +6,8 @@ const DEFAULT_VALUES = {
 
 const useStore = create(set => ({
   ...DEFAULT_VALUES,
-  setSimulation: simulation => set({ simulation })
+  resetSimulation: () => set(DEFAULT_VALUES),
+  startSimulation: simulation => set({ simulation })
 }));
 
 export default useStore;

@@ -1,8 +1,19 @@
 import styled from 'styled-components';
 
+export const Container = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: black;
+  overflow-y: auto;
+`;
+
 export const Table = styled.table`
   flex: 1;
-  border-collapse: separate;
+  width: inherit;
+  height: inherit;
+  border-collapse: collapse;
   background-color: black;
   border: 2px solid black;
 `;
@@ -10,41 +21,15 @@ export const Table = styled.table`
 export const TableRow = styled.tr``;
 
 export const TableCell = styled.td`
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   text-align: center;
-  font-size: 20px;
-
+  border: 3px solid black;
   background-color: ${({ type }) => {
-    switch (type) {
-      case 0:
-        return '#25a244'; // Grama
-      case 1:
-        return '#495057'; // Estrada Cima
-      case 2:
-        return '#495057'; // Estrada Direita
-      case 3:
-        return '#495057'; // Estrada Baixo
-      case 4:
-        return '#495057'; // Estrada Esquerda
-      case 5:
-        return '#495057'; // Cruzamento Cima
-      case 6:
-        return '#495057'; // Cruzamento Direita
-      case 7:
-        return '#495057'; // Cruzamento Baixo
-      case 8:
-        return '#495057'; // Cruzamento Esquerda
-      case 9:
-        return '#495057'; // Cruzamento Cima e Direita
-      case 10:
-        return '#495057'; // Cruzamento Cima e Esquerda
-      case 11:
-        return '#495057'; // Cruzamento Direita e Baixo
-      case 12:
-        return '#495057'; // Cruzamento Baixo e Esquerda
-      default:
-        return '#000';
+    if (type === 0) {
+      return '#25a244'; // Grama
+    } else {
+      return '#495057'; // Estrada
     }
   }};
 
@@ -64,4 +49,15 @@ export const NoData = styled.div`
 export const NoDataDescription = styled.span`
   font-size: 22px;
   color: black;
+`;
+
+export const VehicleContainer = styled.div`
+  position: absolute;
+  transition: transform 0.3s ease-in-out;
+  will-change: transform;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 `;

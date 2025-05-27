@@ -1,6 +1,6 @@
 import api from '../../services/api';
 import { useForm } from 'react-hook-form';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   ButtonGroup,
@@ -16,11 +16,13 @@ import {
   ToggleContainer
 } from './Form.styles';
 import useStore from '../../store';
-import { uniqueId } from 'lodash';
+import { isEmpty, uniqueId } from 'lodash';
 
 export const Form = () => {
   const simulation = useStore(state => state.simulation);
-  const setSimulation = useStore(state => state.setSimulation);
+
+  const resetSimulation = useStore(state => state.resetSimulation);
+  const startSimulation = useStore(state => state.startSimulation);
 
   const [maps, setMaps] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -52,7 +54,7 @@ export const Form = () => {
     };
 
     api.startSimulation(payload).then(() => {
-      setSimulation({
+      startSimulation({
         ...payload,
         id: uniqueId(),
         roadMap: maps[Number(roadMapIndex)]
@@ -63,7 +65,7 @@ export const Form = () => {
   const onStop = () => {
     api.stopSimulation().then(() => {
       reset();
-      setSimulation(null);
+      resetSimulation();
     });
   };
 
@@ -97,7 +99,7 @@ export const Form = () => {
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
       <Title>Simulation Setup</Title>
       {isLoading && <p>Loading...</p>}
-      {!isLoading && (
+      {!isLoading && !isEmpty(maps) && (
         <>
           <Control>
             <Label>Model</Label>
