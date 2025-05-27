@@ -180,7 +180,9 @@ export const Form = () => {
           />
           <Spacer />
           <ButtonGroup>
-            <Button type="submit">Iniciar simulação</Button>
+            <Button type="submit" disabled={!!simulation}>
+              Iniciar simulação
+            </Button>
             <Button
               type="button"
               onClick={onStopVehicleInsertion}
