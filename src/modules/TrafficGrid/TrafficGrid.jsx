@@ -63,7 +63,13 @@ const TrafficGrid = () => {
   useEffect(() => {
     const inactive = vehicles?.find(vehicle => !vehicle.active);
     if (inactive) {
-      setVehicles(prev => prev.filter(vehicle => vehicle.id !== inactive.id));
+      setTimeout(
+        () =>
+          setVehicles(prev =>
+            prev.filter(vehicle => vehicle.id !== inactive.id)
+          ),
+        500
+      );
     }
   }, [vehicles]);
 
