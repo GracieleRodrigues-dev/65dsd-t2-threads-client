@@ -1,12 +1,17 @@
-import api from '../../services/api';
+import useStore from 'store';
+import api from 'services/api';
 import { useForm } from 'react-hook-form';
+import { isEmpty, uniqueId } from 'lodash';
 import { useEffect, useState } from 'react';
+import { TbCarOff } from 'react-icons/tb';
 import {
   Button,
   ButtonGroup,
   Control,
+  DevModeButton,
   Error,
   FormContainer,
+  FormHeader,
   Input,
   Label,
   Select,
@@ -15,14 +20,21 @@ import {
   ToggleButton,
   ToggleContainer
 } from './Form.styles';
-import useStore from '../../store';
-import { isEmpty, uniqueId } from 'lodash';
+import {
+  PiCodeDuotone,
+  PiMapTrifold,
+  PiPauseDuotone,
+  PiPlayDuotone
+} from 'react-icons/pi';
 
 export const Form = () => {
-  const simulation = useStore(state => state.simulation);
-
-  const resetSimulation = useStore(state => state.resetSimulation);
-  const startSimulation = useStore(state => state.startSimulation);
+  const {
+    devMode,
+    toggleDevMode,
+    simulation,
+    resetSimulation,
+    startSimulation
+  } = useStore(state => state);
 
   const [maps, setMaps] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -97,7 +109,12 @@ export const Form = () => {
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
-      <Title>Simulation Setup</Title>
+      <FormHeader>
+        <Title>Simulation Setup</Title>
+        <DevModeButton type="button" onClick={toggleDevMode}>
+          {!devMode ? <PiCodeDuotone size={18} /> : <PiMapTrifold size={18} />}
+        </DevModeButton>
+      </FormHeader>
       {isLoading && <p>Loading...</p>}
       {!isLoading && !isEmpty(maps) && (
         <>
@@ -112,7 +129,9 @@ export const Form = () => {
                 </option>
               ))}
             </Select>
-            {errors.map && <Error>{errors.map.message}</Error>}
+            {errors.roadMapIndex && (
+              <Error>{errors.roadMapIndex.message}</Error>
+            )}
           </Control>
           <Control>
             <Label>Number of vehicles</Label>
@@ -181,16 +200,19 @@ export const Form = () => {
           <Spacer />
           <ButtonGroup>
             <Button type="submit" disabled={!!simulation}>
-              Iniciar simulação
+              Start
+              <PiPlayDuotone />
             </Button>
             <Button
               type="button"
               onClick={onStopVehicleInsertion}
               disabled={!simulation}>
-              Encerrar inserção
+              Stop Insertion
+              <TbCarOff size={28} />
             </Button>
             <Button type="button" onClick={onStop} disabled={!simulation}>
-              Encerrar simulação
+              Stop
+              <PiPauseDuotone />
             </Button>
           </ButtonGroup>
         </>

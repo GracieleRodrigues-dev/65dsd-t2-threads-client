@@ -1,20 +1,20 @@
-import useStore from '../../store';
-import { createVehicle } from '../../utils';
+import useStore from 'store';
+import { createVehicle } from 'utils';
+import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
+import { useMeasure } from '@uidotdev/usehooks';
+import TrafficGridCell from './TrafficGridCell';
+import TrafficGridVehicle from './TrafficGridVehicle';
 import {
   Container,
   NoData,
   NoDataDescription,
   Table,
-  TableCell,
   TableRow
 } from './TrafficGrid.styles';
-import TrafficGridVehicle from './TrafficGridVehicle';
-import { useMeasure } from '@uidotdev/usehooks';
-import TrafficGridCell from './TrafficGridCell';
-import { isEmpty } from 'lodash';
 
 const TrafficGrid = () => {
+  const devMode = useStore(state => state.devMode);
   const roadMap = useStore(state => state.simulation?.roadMap);
   const [vehicles, setVehicles] = useState([]);
 
@@ -62,13 +62,14 @@ const TrafficGrid = () => {
 
   useEffect(() => {
     const inactive = vehicles?.find(vehicle => !vehicle.active);
+
     if (inactive) {
       setTimeout(
         () =>
           setVehicles(prev =>
             prev.filter(vehicle => vehicle.id !== inactive.id)
           ),
-        200
+        inactive.speed
       );
     }
   }, [vehicles]);
@@ -90,8 +91,10 @@ const TrafficGrid = () => {
               {row.map((cell, colIndex) => (
                 <TrafficGridCell
                   cell={cell}
+                  devMode={devMode}
                   rowIndex={rowIndex}
                   colIndex={colIndex}
+                  key={`vehicle-${rowIndex}-${colIndex}`}
                   ref={rowIndex === 0 && colIndex === 0 ? ref : null}
                 />
               ))}

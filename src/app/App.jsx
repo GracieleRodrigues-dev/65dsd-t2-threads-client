@@ -1,6 +1,6 @@
-import Form from '../modules/Form';
-import TrafficGrid from '../modules/TrafficGrid';
-import useStore from '../store';
+import useStore from 'store';
+import Form from 'modules/Form';
+import TrafficGrid from 'modules/TrafficGrid';
 import { Wrapper, Container } from './App.styles';
 
 const App = () => {
