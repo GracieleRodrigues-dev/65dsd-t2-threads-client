@@ -12,6 +12,8 @@ import {
   Table,
   TableRow
 } from './TrafficGrid.styles';
+import { BsArrowLeft } from 'react-icons/bs';
+import { FiArrowLeft } from 'react-icons/fi';
 
 const TrafficGrid = () => {
   const devMode = useStore(state => state.devMode);
@@ -77,7 +79,8 @@ const TrafficGrid = () => {
   if (isEmpty(roadMap)) {
     return (
       <NoData>
-        <NoDataDescription>Configure a simulação</NoDataDescription>
+        <NoDataDescription>Configure the simulation</NoDataDescription>
+        <FiArrowLeft size={32} />
       </NoData>
     );
   }

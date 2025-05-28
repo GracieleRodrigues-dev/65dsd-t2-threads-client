@@ -119,10 +119,10 @@ export const Form = () => {
       {!isLoading && !isEmpty(maps) && (
         <>
           <Control>
-            <Label>Model</Label>
+            <Label>Map</Label>
             <Select
               {...register('roadMapIndex', { required: 'Campo obrigatório' })}>
-              <option value="">Selecione um mapa</option>
+              <option value="">Select...</option>
               {maps.map((_, i) => (
                 <option key={i} value={i}>
                   Map {i + 1}

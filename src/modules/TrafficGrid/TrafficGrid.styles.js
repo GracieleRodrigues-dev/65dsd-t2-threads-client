@@ -84,6 +84,7 @@ export const NoData = styled.div`
   border-bottom: 6px solid black;
   align-items: center;
   justify-content: center;
+  gap: 10px;
 `;
 
 export const NoDataDescription = styled.span`
