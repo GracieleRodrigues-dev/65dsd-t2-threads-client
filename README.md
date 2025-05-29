@@ -1,12 +1,30 @@
-# React + Vite
+# Como rodar o projeto
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Siga as instruções abaixo para rodar o projeto em sua máquina de desenvolvimento.
 
-Currently, two official plugins are available:
+### Pré-requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Certifique-se de ter o **Node.js** e o **npm** instalados em seu ambiente.
 
-## Expanding the ESLint configuration
+### Instalação e Execução
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1.  **Clone o repositório:**
+
+    ```bash
+    git clone https://github.com/GracieleRodrigues-dev/65dsd-t2-threads-client.git
+    ```
+
+2.  **Instale as dependências:** Navegue até o diretório do projeto clonado e instale todas as dependências necessárias.
+
+    ```bash
+    cd 65dsd-t2-threads-client
+    npm install
+    ```
+
+3.  **Execute o projeto:** Inicie o servidor de desenvolvimento.
+
+    ```bash
+    npm run dev
+    ```
+
+    Isso abrirá o projeto em seu navegador padrão em `http://localhost:5173/`.
