@@ -12,7 +12,6 @@ import {
   Table,
   TableRow
 } from './TrafficGrid.styles';
-import { BsArrowLeft } from 'react-icons/bs';
 import { FiArrowLeft } from 'react-icons/fi';
 
 const TrafficGrid = () => {

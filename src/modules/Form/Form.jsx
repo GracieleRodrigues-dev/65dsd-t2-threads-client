@@ -3,7 +3,6 @@ import api from 'services/api';
 import { useForm } from 'react-hook-form';
 import { isEmpty, uniqueId } from 'lodash';
 import { useEffect, useState } from 'react';
-import { TbCarOff } from 'react-icons/tb';
 import {
   Button,
   ButtonGroup,
@@ -213,7 +212,6 @@ export const Form = () => {
               onClick={onStopVehicleInsertion}
               disabled={!simulation}>
               Stop Insertion
-              <TbCarOff size={28} />
             </Button>
             <Button type="button" onClick={onStop} disabled={!simulation}>
               Stop
