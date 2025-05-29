@@ -121,6 +121,7 @@ export const Form = () => {
           <Control>
             <Label>Map</Label>
             <Select
+              disabled={!!simulation}
               {...register('roadMapIndex', { required: 'Campo obrigatório' })}>
               <option value="">Select...</option>
               {maps.map((_, i) => (
@@ -137,6 +138,7 @@ export const Form = () => {
             <Label>Number of vehicles</Label>
             <Input
               type="number"
+              disabled={!!simulation}
               {...register('numberOfVehicles', {
                 required: 'Campo obrigatório',
                 min: { value: 1, message: 'Deve ser no mínimo 1' },
@@ -152,6 +154,7 @@ export const Form = () => {
             <Label>Insertion time interval (MS)</Label>
             <Input
               type="number"
+              disabled={!!simulation}
               {...register('insertionTimeInterval', {
                 required: 'Campo obrigatório',
                 min: { value: 100, message: 'Mínimo 100ms' },
@@ -168,6 +171,7 @@ export const Form = () => {
             <ToggleContainer>
               <ToggleButton
                 type="button"
+                disabled={!!simulation}
                 isActive={selectedMechanism === 'semaphore'}
                 onClick={() =>
                   setValue('exclusionMechanism', 'semaphore', {
@@ -178,6 +182,7 @@ export const Form = () => {
               </ToggleButton>
               <ToggleButton
                 type="button"
+                disabled={!!simulation}
                 isActive={selectedMechanism === 'monitor'}
                 onClick={() =>
                   setValue('exclusionMechanism', 'monitor', {

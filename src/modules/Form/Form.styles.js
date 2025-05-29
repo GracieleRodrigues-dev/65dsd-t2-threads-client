@@ -47,6 +47,10 @@ export const Input = styled.input`
   border: 2px solid #000;
   background: #fff;
   font-family: inherit;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;
 
 export const Select = styled.select`
@@ -54,6 +58,10 @@ export const Select = styled.select`
   border: 2px solid #000;
   background: #fff;
   font-family: inherit;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;
 
 export const Error = styled.span`
@@ -77,6 +85,10 @@ export const ToggleButton = styled.button`
 
   &:first-child {
     border-right: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 `;
 
